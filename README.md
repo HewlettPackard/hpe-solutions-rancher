@@ -1,7 +1,7 @@
 # HPE_INTERNAL_ONLY  
 Anisble_Rancher
 This repository contains Ansible Playbooks for installing highly available Rancher 2.0 on RHEL 7.6 on both VMware Vsphere v6.7 virtual machine or on Bare metal servers 
-kindly refer to the Deployment pdf file in the reprository for how to use these playbooks effectively 
+kindly refer to the Deployment_Guide_Rancher20_on_RHEL76.pdf file before begining in the repository for how to use these playbooks effectively 
 for all the scripts the following copyrights hold true 
 
 ###
