@@ -1,0 +1,20 @@
+---
+#####Subscription details ########
+
+rhsm_user: <Redhat subcription id>
+rhsm_pass: <Redhat subcription password>
+vault_engine_password: Password!234
+vault_rhsub_user: <Redhat subcription id>
+vault_rhsub_pass: <Redhat subcription Password>
+ansible_ssh_user: root
+ansible_ssh_pass: <root password
+
+######## subscription pool_id details################
+pool_ids_vms:
+         - <8a85f99765c8cxxxxxxxxxxxx>
+         - <8a85f99765cxxxxxxxxxxxxxx>
+
+
+
+
+

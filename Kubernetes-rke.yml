@@ -1,0 +1,21 @@
+---
+- name: install kubernetes-rke 
+  hosts: localhost
+  connection: local
+  tasks:
+    
+    - name: Rke generate certifcate
+      command: "rke cert generate-csr"     
+      ignore_errors: no
+    
+    - name: install kubernetes cluster  using rke
+      command: "rke up --config cluster.yml"     
+      ignore_errors: no
+      
+    - name: Set kubectl path 
+      wait_for: timeout=60
+
+
+    
+   
+   

@@ -1,0 +1,9 @@
+---
+#Patch to the second disk for Docker local storage
+second_disk_vms: sda
+
+
+
+
+
+

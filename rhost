@@ -1,0 +1,18 @@
+[all]
+rancher01.tennet.local
+rancher02.tennet.local
+rancher03.tennet.local
+lb01.tennet.local
+
+[ansible]
+localhost
+
+[server]
+rancher01.tennet.local vm_name=rancher01 ipv4addr=10.0.8.91 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass="Password!234"
+rancher02.tennet.local vm_name=rancher02 ipv4addr=10.0.8.92 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass="Password!234"
+rancher03.tennet.local vm_name=rancher02 ipv4addr=10.0.8.92 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass="Password!234"
+
+[lb]
+lb01.tennet.local vm_name=lb01 ipv4addr=10.0.8.94 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass="Password!234"
+
+

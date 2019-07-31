@@ -1,0 +1,71 @@
+---
+- name: Prepare RHEL VMs for Racher server deployment
+  hosts: all
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Include variables
+      include_vars: HostPrepareVars.yml
+
+    - name: "disable firewall and other unused services"
+      service: name={{item}} state=stopped enabled=no
+      register: unused_disable
+      failed_when: "unused_disable|failed and ('find' not in unused_disable.msg and 'found' not in unused_disable.msg)"
+      with_items:
+          - firewalld
+
+    - name: Is the host already registered?
+      shell: subscription-manager status | grep -e "Current"|awk '{print $3}'
+      register: vmsubscribed
+      ignore_errors: yes
+
+    - name: Register virtual machines to RHSM
+      redhat_subscription:
+         state: present
+         username: "{{ vault_rhsub_user }}"
+         password: "{{ vault_rhsub_pass }}"
+         force_register: yes
+         pool_ids:
+            "{{ pool_ids_vms }}"
+      when:
+         - pool_ids_vms is defined
+         - vmsubscribed.stdout != 'Current'
+      ignore_errors: no
+
+    - name: Disable all repos
+      command: 'subscription-manager repos --disable=*'
+
+    - name: Enable Reqired reposi
+      command: 'subscription-manager repos "--enable=rhel-7-server-rpms" "--enable=rhel-7-server-extras-rpms" "--enable=rhel-7-fast-datapath-rpms"'
+
+    - name: Install Basic Utils
+      yum:
+         name: "{{item}}"
+         state: latest
+      with_items:
+      - wget
+      - git
+      - net-tools
+      - bind-utils
+      - yum-utils
+      - iptables-services
+      - bridge-utils
+      - bash-completion
+      - kexec-tools
+      - sos
+      - psacct
+
+    - name: Perform an Update
+      yum:
+         name: '*'
+         state: latest
+
+    - name: "Enable firewall"
+      service: name={{item}} state=started
+      register: unused_disable2
+      failed_when: "unused_disable2|failed and ('find' not in unused_disable2.msg and 'found' not in unused_disable2.msg)"
+      with_items:
+          - firewalld
+
+    

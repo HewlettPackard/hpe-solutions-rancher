@@ -1,0 +1,20 @@
+---
+- name: Delete the Management VMs
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Include VM variables
+      include_vars: VirtualMachineVars.yml
+
+    - name: Delete the Rancher VMs 
+      vmware_guest:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        cluster: "{{ cluster_name }}"
+        name: "{{ item }}"
+        state: absent
+      delegate_to: localhost
+      register: facts
+      with_list: "{{ rancher_vm_names }}"

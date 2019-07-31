@@ -1,0 +1,22 @@
+---
+- name: Power off VMs
+  hosts: localhost
+  connection: local
+
+
+  tasks:
+    - name: Include VM variables
+      include_vars: VirtualMachineVars.yml
+
+    - name: Power-off the Rancher VMs
+      vmware_guest_powerstate:
+        validate_certs: false
+        folder: /
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        name: "{{ item }}"
+        state: powered-off
+      delegate_to: localhost
+      register: deploy
+      with_list: "{{ rancher_vm_names }}"

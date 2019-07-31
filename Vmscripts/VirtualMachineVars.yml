@@ -1,0 +1,95 @@
+---
+vcenter_hostname: "ranchvc.tennet.local"
+vcenter_username: "administrator@vsphere.local"
+vcenter_password: "Password!234"
+cluster_name: "Rcluster"
+datacenter_name: "Rdatacenter"
+datastore_name: "vmdata202"
+vmtemplate: "Rhel-76"
+dumpfacts: False
+
+rancher_disk_size: 120
+rancher_cpu_size: 4
+rancher_memory_size: 16184
+rancher01_ip: "10.0.8.91"
+rancher02_ip: "10.0.8.92"
+rancher03_ip: "10.0.8.93"
+#rancher01_fqdn: "rancher01.tennet.local"
+#rancher02_fqdn: "rancher02.tennet.local"
+#rancher03_fqdn: "rancher03.tennet.local"
+rancher01_name: "rancher01"
+rancher02_name: "rancher02"
+rancher03_name: "rancher03"
+
+lb_disk_size: 100
+lb_cpu_size: 2
+lb_memory_size: 8092
+lb01_ip: "10.0.8.94"
+#lb01_fqdn: "lb01.tennet.local"
+lb01_name: "lb01"
+
+subnet_mask: 255.255.0.0
+gateway_address: 10.0.1.1
+dns_server_address: 10.0.1.254
+domain_name: "tennet.local"
+network_name: "lan"
+vm_type: vmxnet3
+disk_type: thin
+
+######################### No Change Required #########################
+
+rancher_vms:
+  "{{ rancher01_name }}":
+    ip: "{{ rancher01_ip }}"
+    name: "{{ rancher01_name }}"
+    cpu: "{{ rancher_cpu_size }}"
+    mem: "{{ rancher_memory_size }}"
+    disk_size: "{{ rancher_disk_size }}"
+    netmask: "{{ subnet_mask }}"
+    gateway: "{{ gateway_address }}"
+    dns_server: "{{ dns_server_address }}"
+    domain: "{{ domain_name }}"
+    network: "{{ network_name }}"
+
+  "{{ rancher02_name }}":
+    ip: "{{ rancher02_ip }}"
+    name: "{{ rancher02_name }}"
+    cpu: "{{ rancher_cpu_size }}"
+    mem: "{{ rancher_memory_size }}"
+    disk_size: "{{ rancher_disk_size }}"
+    netmask: "{{ subnet_mask }}"
+    gateway: "{{ gateway_address }}"
+    dns_server: "{{ dns_server_address }}"
+    domain: "{{ domain_name }}"
+    network: "{{ network_name }}"
+
+  "{{ rancher03_name }}":
+    ip: "{{ rancher03_ip }}"
+    name: "{{ rancher03_name }}"
+    cpu: "{{ rancher_cpu_size }}"
+    mem: "{{ rancher_memory_size }}"
+    disk_size: "{{ rancher_disk_size }}"
+    netmask: "{{ subnet_mask }}"
+    gateway: "{{ gateway_address }}"
+    dns_server: "{{ dns_server_address }}"
+    domain: "{{ domain_name }}"
+    network: "{{ network_name }}"  
+
+  "{{ lb01_name }}":
+    ip: "{{ lb01_ip }}"
+    name: "{{ lb01_name }}"
+    cpu: "{{ lb_cpu_size }}"
+    mem: "{{ lb_memory_size }}"
+    disk_size: "{{ lb_disk_size }}"
+    netmask: "{{ subnet_mask }}"
+    gateway: "{{ gateway_address }}"
+    dns_server: "{{ dns_server_address }}"
+    domain: "{{ domain_name }}"
+    network: "{{ network_name }}"
+
+rancher_vm_names:
+  - "{{ rancher01_name }}"
+  - "{{ rancher02_name }}"
+  - "{{ rancher03_name }}"
+  - "{{ lb01_name }}"
+

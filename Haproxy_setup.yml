@@ -1,0 +1,59 @@
+---
+- name: Deploy docker 
+  hosts: lb
+  gather_facts: false
+  connection: local
+
+  tasks:
+    
+    - name: Install Haproxy
+      package:
+        name: "haproxy"
+        state: present
+
+    - name: Stop Haproxy service if running
+      service:
+        name: haproxy
+        state: stopped
+
+    - name: HAProxy config
+      copy:
+        src: templates/haproxy.cfg
+        dest: /etc/haproxy/haproxy.cfg 
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Start and Enable Haproxy service
+      service:
+        name: haproxy
+        state: started
+        enabled: yes
+
+    - name: Open firewall port for etcd 
+      command: "firewall-cmd --permanent --add-port 2379-2380/tcp"
+      ignore_errors: no
+
+    - name: Open firewall port for Kubernetes apiserver
+      command: "firewall-cmd --permanent --add-port 6443/tcp"
+      ignore_errors: no
+
+    - name: Open firewall port for networking 
+      command: "firewall-cmd --permanent --add-port 8472/udp"
+      ignore_errors: no
+
+    - name: Open firewall port for webconsole
+      command: "firewall-cmd --permanent --add-port 443/tcp"
+      ignore_errors: no
+  
+    - name: Open firewall port for kubelet
+      command: "firewall-cmd --permanent --add-port 443/tcp"
+      ignore_errors: no
+
+
+    - name: Open firewall port for etcd 
+      command: "firewall-cmd --reload"
+      ignore_errors: no
+
+
+
