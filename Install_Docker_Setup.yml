@@ -1,0 +1,113 @@
+---
+- name: Deploy docker 
+  hosts: management:worker
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Include VM variables
+      include_vars: Docker_Vars.yml
+
+    - name: Install dockers
+      package:
+        name: "docker"
+        state: present
+#        version=1.13
+
+
+    - name: stop docker
+      service:
+        name: docker
+        state: stopped
+#        version=1.13
+
+      
+    - name: Remove docker-storage-setup config
+      shell: $null > /etc/sysconfig/docker-storage-setup
+
+    - name: replace daemon.json insecure registry
+      copy:
+        src: daemon.json
+        dest: /etc/docker/
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Edit docker-storage-setup file to add the second disk for Docker local volume for Virtual Machines
+      lineinfile:
+        path: /etc/sysconfig/docker-storage-setup
+        state: present
+        line: "{{ item }}"
+      with_items:
+        - DEVS={{ second_disk_vms  }}
+        - VG=docker-vg
+        - STORAGE_DRIVER=devicemapper
+
+    - name: Start and Enable docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Make sure we have a 'sudo' group
+      group:
+        name: sudo
+        state: present
+
+    - name: Create a Sudo user for RKE Installation
+      user:
+         name: rkeuser
+         password: 'Password!234'
+         shell: /bin/bash
+         groups: sudo
+         append: yes
+         generate_ssh_key: yes
+    
+    - name: Allow sudo group to have passwordless Sudo rights
+      lineinfile:
+         path: /etc/sudoers
+         state: present
+         regexp: '^%sudo'
+         line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+         regexp: '^# %sudo'
+         line: '%sudo        ALL=(ALL)       NOPASSWD: ALL'
+         validate: 'visudo -cf %s'
+
+    - name: Upload SSH Public key for SSHing without credentials
+      authorized_key:
+         user: rkeuser
+         state: present
+         manage_dir: yes
+         key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+
+    - name: Add to docker group
+      command: "usermod -aG dockerroot rkeuser"
+
+    - name: Open firewall port for etcd 
+      command: "firewall-cmd --permanent --add-port 2379-2380/tcp"
+      ignore_errors: no
+
+    - name: Open firewall port for Kubernetes apiserver
+      command: "firewall-cmd --permanent --add-port 6443/tcp"
+      ignore_errors: no
+
+    - name: Open firewall port for networking 
+      command: "firewall-cmd --permanent --add-port 8472/udp"
+      ignore_errors: no
+
+    - name: Open firewall port for kubelet
+      command: "firewall-cmd --permanent --add-port 10250/tcp"
+      ignore_errors: no
+
+    - name: Open firewall port for web console
+      command: "firewall-cmd --permanent --add-port 443/tcp"
+      ignore_errors: no
+
+
+    - name: Open firewall port for etcd 
+      command: "firewall-cmd --reload"
+      ignore_errors: no
+
+
+

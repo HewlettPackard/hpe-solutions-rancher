@@ -1,0 +1,380 @@
+---
+vcenter_hostname: ""
+vcenter_username: ""
+vcenter_password: ""
+esxi01_hostname: ""
+esxi02_hostname: ""
+esxi03_hostname: ""
+datacenter_name: ""
+datastore_name: ""
+vmtemplate: ""
+dumpfacts: False
+
+# Disk size in GB/GiB
+rancher_disk_size: 
+lb_disk_size: 
+worker_disk_size:
+
+# number of CPUs
+rancher_cpu_size: 
+lb_cpu_size: 
+worker_cpu_size: 
+
+# Memory size in MB/MiB
+rancher_memory_size: 
+lb_memory_size: 
+worker_memory_size: 
+
+#management network IP address of the rancher and worker nodes
+rancher01_ip: ""
+rancher02_ip: ""
+rancher03_ip: ""
+lb01_ip: ""
+lb02_ip: ""
+lb03_ip: ""
+worker01_ip: ""
+worker02_ip: ""
+worker03_ip: ""
+
+#external network IP address of the rancher and worker nodes
+rancher01_ip2: ""
+rancher02_ip2: ""
+rancher03_ip2: ""
+lb01_ip2: ""
+lb02_ip2: ""
+lb03_ip2: ""
+worker01_ip2: ""
+worker02_ip2: ""
+worker03_ip2: ""
+
+#iscsi_a network IP address of the rancher and worker nodes
+rancher01_ip3: ""
+rancher02_ip3: ""
+rancher03_ip3: ""
+lb01_ip3: ""
+lb02_ip3: ""
+lb03_ip3: ""
+worker01_ip3: ""
+worker02_ip3: ""
+worker03_ip3: ""
+
+#iscsi_b network IP address of the rancher and worker nodes
+rancher01_ip4: ""
+rancher02_ip4: ""
+rancher03_ip4: ""
+lb01_ip4: ""
+lb02_ip4: ""
+lb03_ip4: ""
+worker01_ip4: ""
+worker02_ip4: ""
+worker03_ip4: ""
+
+#data network IP address of the rancher and worker nodes
+rancher01_ip5: ""
+rancher02_ip5: ""
+rancher03_ip5: ""
+lb01_ip5: ""
+lb02_ip5: ""
+lb03_ip5: ""
+worker01_ip5: ""
+worker02_ip5: ""
+worker03_ip5: ""
+
+#name of the rancher, lb and worker nodes < short names, not the FQDN >
+rancher01_name: ""
+rancher02_name: ""
+rancher03_name: ""
+lb01_name: ""
+lb02_name: ""
+lb03_name: ""
+worker01_name: ""
+worker02_name: ""
+worker03_name: ""
+
+#subnet mask for vlan 1193, 1151, 3193, 3194
+subnet_mask_01: 
+
+#subnet mask for data vlan 216
+subnet_mask_02: 
+
+#gateway for vlan 1193, 1151, 3193, 3194
+gateway_address_01: 
+
+#gateway for vlan 216
+gateway_address_02: 
+
+#dns for vlan 1151
+dns_server_address_01: 
+
+#dns for vlan 1193 3193 3194
+dns_server_address_02: 10.0.1.254
+
+#dns for vlan 216
+dns_server_address_03: 15.226.47.253
+
+domain_name: "tennet.com"
+
+#data network
+network_name_01: "VMnetwork_1151"
+
+#Management network
+network_name_02: "VM Network-1193"
+
+#iscsi_a
+network_name_03: "ISCSI-A"
+
+#iscsi_b
+network_name_04: "ISCSI-B"
+
+#datavlan network
+network_name_05: "VLAN-216"
+
+vm_type: vmxnet3
+disk_type: thin
+
+
+######################### No Change Required #########################
+
+rancher_vms:
+  "{{ rancher01_name }}":
+    ip1: "{{ rancher01_ip }}"
+    ip2: "{{ rancher01_ip2 }}"
+    ip3: "{{ rancher01_ip3 }}"
+    ip4: "{{ rancher01_ip4 }}"
+    ip5: "{{ rancher01_ip5 }}"
+    name: "{{ rancher01_name }}"
+    cpu: "{{ rancher_cpu_size }}"
+    mem: "{{ rancher_memory_size }}"
+    disk_size: "{{ rancher_disk_size }}"
+    netmask1: "{{ subnet_mask_01 }}"
+    netmask2: "{{ subnet_mask_02 }}"
+    gateway1: "{{ gateway_address_01 }}"
+    gateway2: "{{ gateway_address_02 }}"
+    dns_server1: "{{ dns_server_address_01 }}"
+    dns_server2: "{{ dns_server_address_02 }}"
+    dns_server3: "{{ dns_server_address_03 }}"
+    domain: "{{ domain_name }}"
+    network1: "{{ network_name_01 }}"
+    network2: "{{ network_name_02 }}"
+    network3: "{{ network_name_03 }}"
+    network4: "{{ network_name_04 }}"
+    network5: "{{ network_name_05 }}"
+    esxi: "{{ esxi01_hostname }}"
+
+  "{{ rancher02_name }}":
+    ip1: "{{ rancher02_ip }}"
+    ip2: "{{ rancher02_ip2 }}"
+    ip3: "{{ rancher02_ip3 }}"
+    ip4: "{{ rancher02_ip4 }}"
+    ip5: "{{ rancher02_ip5 }}"
+    name: "{{ rancher02_name }}"
+    cpu: "{{ rancher_cpu_size }}"
+    mem: "{{ rancher_memory_size }}"
+    disk_size: "{{ rancher_disk_size }}"
+    netmask1: "{{ subnet_mask_01 }}"
+    netmask2: "{{ subnet_mask_02 }}"
+    gateway1: "{{ gateway_address_01 }}"
+    gateway2: "{{ gateway_address_02 }}"
+    dns_server1: "{{ dns_server_address_01 }}"
+    dns_server2: "{{ dns_server_address_02 }}"
+    dns_server3: "{{ dns_server_address_03 }}"
+    domain: "{{ domain_name }}"
+    network1: "{{ network_name_01 }}"
+    network2: "{{ network_name_02 }}"
+    network3: "{{ network_name_03 }}"
+    network4: "{{ network_name_04 }}"
+    network5: "{{ network_name_05 }}"
+    esxi: "{{ esxi02_hostname }}"
+
+
+  "{{ rancher03_name }}":
+    ip1: "{{ rancher03_ip }}"
+    ip2: "{{ rancher03_ip2 }}"
+    ip3: "{{ rancher03_ip3 }}"
+    ip4: "{{ rancher03_ip4 }}"
+    ip5: "{{ rancher03_ip5 }}"
+    name: "{{ rancher03_name }}"
+    cpu: "{{ rancher_cpu_size }}"
+    mem: "{{ rancher_memory_size }}"
+    disk_size: "{{ rancher_disk_size }}"
+    netmask1: "{{ subnet_mask_01 }}"
+    netmask2: "{{ subnet_mask_02 }}"
+    gateway1: "{{ gateway_address_01 }}"
+    gateway2: "{{ gateway_address_02 }}"
+    dns_server1: "{{ dns_server_address_01 }}"
+    dns_server2: "{{ dns_server_address_02 }}"
+    dns_server3: "{{ dns_server_address_03 }}"
+    domain: "{{ domain_name }}"
+    network1: "{{ network_name_01 }}"
+    network2: "{{ network_name_02 }}"
+    network3: "{{ network_name_03 }}"
+    network4: "{{ network_name_04 }}"
+    nnetwork5: "{{ network_name_05 }}"
+    esxi: "{{ esxi03_hostname }}"
+
+
+  "{{ lb01_name }}":
+    ip1: "{{ lb01_ip }}"
+    ip2: "{{ lb01_ip2 }}"
+    ip3: "{{ lb01_ip3 }}"
+    ip4: "{{ lb01_ip4 }}"
+    ip5: "{{ lb01_ip5 }}"
+    name: "{{ lb01_name }}"
+    cpu: "{{ lb_cpu_size }}"
+    mem: "{{ lb_memory_size }}"
+    disk_size: "{{ lb_disk_size }}"
+    netmask1: "{{ subnet_mask_01 }}"
+    netmask2: "{{ subnet_mask_02 }}"
+    gateway1: "{{ gateway_address_01 }}"
+    gateway2: "{{ gateway_address_02 }}"
+    dns_server1: "{{ dns_server_address_01 }}"
+    dns_server2: "{{ dns_server_address_02 }}"
+    dns_server3: "{{ dns_server_address_03 }}"
+    domain: "{{ domain_name }}"
+    network1: "{{ network_name_01 }}"
+    network2: "{{ network_name_02 }}"
+    network3: "{{ network_name_03 }}"
+    network4: "{{ network_name_04 }}"
+    network5: "{{ network_name_05 }}"
+    esxi: "{{ esxi01_hostname }}"
+
+
+  "{{ lb02_name }}":
+    ip1: "{{ lb02_ip }}"
+    ip2: "{{ lb02_ip2 }}"
+    ip3: "{{ lb02_ip3 }}"
+    ip4: "{{ lb02_ip4 }}"
+    ip5: "{{ lb02_ip5 }}"
+    name: "{{ lb02_name }}"
+    cpu: "{{ lb_cpu_size }}"
+    mem: "{{ lb_memory_size }}"
+    disk_size: "{{ lb_disk_size }}"
+    netmask1: "{{ subnet_mask_01 }}"
+    netmask2: "{{ subnet_mask_02 }}"
+    gateway1: "{{ gateway_address_01 }}"
+    gateway2: "{{ gateway_address_02 }}"
+    dns_server1: "{{ dns_server_address_01 }}"
+    dns_server2: "{{ dns_server_address_02 }}"
+    dns_server3: "{{ dns_server_address_03 }}"
+    domain: "{{ domain_name }}"
+    network1: "{{ network_name_01 }}"
+    network2: "{{ network_name_02 }}"
+    network3: "{{ network_name_03 }}"
+    network4: "{{ network_name_04 }}"
+    network5: "{{ network_name_05 }}"
+    esxi: "{{ esxi02_hostname }}"
+
+
+  "{{ lb03_name }}":
+    ip1: "{{ lb03_ip }}"
+    ip2: "{{ lb03_ip2 }}"
+    ip3: "{{ lb03_ip3 }}"
+    ip4: "{{ lb03_ip4 }}"
+    ip5: "{{ lb03_ip5 }}"
+    name: "{{ lb03_name }}"
+    cpu: "{{ lb_cpu_size }}"
+    mem: "{{ lb_memory_size }}"
+    disk_size: "{{ lb_disk_size }}"
+    netmask1: "{{ subnet_mask_01 }}"
+    netmask2: "{{ subnet_mask_02 }}"
+    gateway1: "{{ gateway_address_01 }}"
+    gateway2: "{{ gateway_address_02 }}"
+    dns_server1: "{{ dns_server_address_01 }}"
+    dns_server2: "{{ dns_server_address_02 }}"
+    dns_server3: "{{ dns_server_address_03 }}"
+    domain: "{{ domain_name }}"
+    network1: "{{ network_name_01 }}"
+    network2: "{{ network_name_02 }}"
+    network3: "{{ network_name_03 }}"
+    network4: "{{ network_name_04 }}"
+    network5: "{{ network_name_05 }}"
+    esxi: "{{ esxi03_hostname }}"
+
+  "{{ worker01_name }}":
+    ip1: "{{ worker01_ip }}"
+    ip2: "{{ worker01_ip2 }}"
+    ip3: "{{ worker01_ip3 }}"
+    ip4: "{{ worker01_ip4 }}"
+    ip5: "{{ worker01_ip5 }}"
+    name: "{{ worker01_name }}"
+    cpu: "{{ worker_cpu_size }}"
+    mem: "{{ worker_memory_size }}"
+    disk_size: "{{ worker_disk_size }}"
+    netmask1: "{{ subnet_mask_01 }}"
+    netmask2: "{{ subnet_mask_02 }}"
+    gateway1: "{{ gateway_address_01 }}"
+    gateway2: "{{ gateway_address_02 }}"
+    dns_server1: "{{ dns_server_address_01 }}"
+    dns_server2: "{{ dns_server_address_02 }}"
+    dns_server3: "{{ dns_server_address_03 }}"
+    domain: "{{ domain_name }}"
+    network1: "{{ network_name_01 }}"
+    network2: "{{ network_name_02 }}"
+    network3: "{{ network_name_03 }}"
+    network4: "{{ network_name_04 }}"
+    network5: "{{ network_name_05 }}"
+    esxi: "{{ esxi01_hostname }}"
+
+
+  "{{ worker02_name }}":
+    ip1: "{{ worker02_ip }}"
+    ip2: "{{ worker02_ip2 }}"
+    ip3: "{{ worker02_ip3 }}"
+    ip4: "{{ worker02_ip4 }}"
+    ip5: "{{ worker02_ip5 }}"
+    name: "{{ worker02_name }}"
+    cpu: "{{ worker_cpu_size }}"
+    mem: "{{ worker_memory_size }}"
+    disk_size: "{{ worker_disk_size }}"
+    netmask1: "{{ subnet_mask_01 }}"
+    netmask2: "{{ subnet_mask_02 }}"
+    gateway1: "{{ gateway_address_01 }}"
+    gateway2: "{{ gateway_address_02 }}"
+    dns_server1: "{{ dns_server_address_01 }}"
+    dns_server2: "{{ dns_server_address_02 }}"
+    dns_server3: "{{ dns_server_address_03 }}"
+    domain: "{{ domain_name }}"
+    network1: "{{ network_name_01 }}"
+    nntwork2: "{{ network_name_02 }}"
+    network3: "{{ network_name_03 }}"
+    network4: "{{ network_name_04 }}"
+    network5: "{{ network_name_05 }}"
+    esxi: "{{ esxi02_hostname }}"
+
+
+  "{{ worker03_name }}":
+    ip1: "{{ worker03_ip }}"
+    ip2: "{{ worker03_ip2 }}"
+    ip3: "{{ worker03_ip3 }}"
+    ip4: "{{ worker03_ip4 }}"
+    ip5: "{{ worker03_ip5 }}"
+    name: "{{ worker03_name }}"
+    cpu: "{{ worker_cpu_size }}"
+    mem: "{{ worker_memory_size }}"
+    disk_size: "{{ worker_disk_size }}"
+    netmask1: "{{ subnet_mask_01 }}"
+    netmask2: "{{ subnet_mask_02 }}"
+    gateway1: "{{ gateway_address_01 }}"
+    gateway2: "{{ gateway_address_02 }}"
+    dns_server1: "{{ dns_server_address_01 }}"
+    dns_server2: "{{ dns_server_address_02 }}"
+    dns_server3: "{{ dns_server_address_03 }}"
+    domain: "{{ domain_name }}"
+    network1: "{{ network_name_01 }}"
+    network2: "{{ network_name_02 }}"
+    network3: "{{ network_name_03 }}"
+    network4: "{{ network_name_04 }}"
+    network5: "{{ network_name_05 }}"
+    esxi: "{{ esxi03_hostname }}"
+
+rancher_vm_names:
+  - "{{ rancher01_name }}"
+  - "{{ rancher02_name }}"
+  - "{{ rancher03_name }}"
+  - "{{ lb01_name }}"
+  - "{{ lb02_name }}"
+  - "{{ lb03_name }}"
+  - "{{ worker01_name }}"
+  - "{{ worker02_name }}"
+  - "{{ worker03_name }}"
+

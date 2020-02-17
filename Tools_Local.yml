@@ -1,0 +1,47 @@
+---
+- name: Install tools
+  hosts: localhost
+  connection: local
+  tasks:
+    
+    - name: download Kubectl
+      command: curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.14.3/bin/linux/amd64/kubectl"
+      register: downloaded
+      
+    - name: wait for download 
+      pause: minutes=1
+
+    - name: Make Kubectl and executable
+      command: "chmod +x kubectl"
+      
+   
+    - name: set Path for kubectl
+      command: "mv kubectl /usr/local/bin/kubectl"
+      ignore_error: no
+
+    - name: download RKE
+      shell: curl -LO "https://github.com/rancher/rke/releases/download/v0.2.6/rke_linux-amd64"
+      ignore_error: no
+
+    - name: Make Kubectl and executable
+      command: "chmod +x rke_linux-amd64"
+      ignore_error: no
+   
+    - name: set Path for kubectl
+      command: mv rke_linux-amd64 /usr/local/bin/rke
+      ignore_error: no
+
+    - name: download helm and tiller
+      shell: curl -LO "https://git.io/get_helm.sh"
+      ignore_error: yes
+
+    - name: Make executable
+      command: "chmod 700 get_helm.sh"
+      ignore_error: no
+   
+    - name: Set path
+      shell: "./get_helm.sh"
+      ignore_error: no
+
+
+      

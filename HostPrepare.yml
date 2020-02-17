@@ -1,6 +1,6 @@
 ---
 - name: Prepare RHEL VMs for Racher server deployment
-  hosts: all
+  hosts: management:worker
   gather_facts: false
   connection: local
 

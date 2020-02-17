@@ -1,0 +1,29 @@
+---
+- name: Deploy docker 
+  hosts: management:worker
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Include VM variables
+      include_vars: dockerVars.yml
+
+    - name: Stop Docker service if running
+      service:
+        name: docker
+        state: stopped
+      ignore_errors: true
+
+    - name: Uninstall dockers
+      package:
+        name: "docker"
+        state: absent
+      ignore_errors: true
+
+      
+    - name: remove docker files 
+      command: "rm -rf /var/lib/docker"
+    
+
+    
+    

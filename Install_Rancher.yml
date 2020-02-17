@@ -1,0 +1,35 @@
+---
+- name: Install Rancher
+  hosts: localhost
+  connection: local
+  tasks:
+    
+    - name: add Helm repo
+      command: "helm repo add rancher-stable https://releases.rancher.com/server-charts/stable"     
+      ignore_errors: yes
+
+    - name: add cert-manager
+      command: "helm install stable/cert-manager --name cert-manager --namespace kube-system --version v0.5.2"     
+      ignore_errors: yes
+
+    - name: wait for deployment
+      wait_for: timeout=120
+
+    - name: install latest version of rancher
+      command: "helm install rancher-stable/rancher --version 2.2.6 --name rancher --namespace cattle-system  --set hostname=lb01.tennet.com"    
+      ignore_errors: no
+      
+    - name: deploy rancher 
+      command: "kubectl -n cattle-system rollout status deploy/rancher"
+      ignore_errors: no    
+
+    - name: wait for status 
+      wait_for: timeout=120  
+   
+    - name: check status 
+      command: "kubectl -n cattle-system get deploy rancher"
+      ignore_errors: no
+
+    
+   
+   

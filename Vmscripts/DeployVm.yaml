@@ -1,0 +1,87 @@
+---
+- name: Creating RHEL VMs for Racher server deployment
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Include VM variables
+      include_vars: VirtualMachineVars.yaml
+
+    - name: Creating the Racher server VMs
+      vmware_guest:
+        validate_certs: false
+        folder: /
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        esxi_hostname: "{{ item.value.esxi }}"
+        datacenter: "{{ datacenter_name }}"
+        name: "{{ item.value.name }}"
+        template: "{{ vmtemplate }}"
+        disk:
+          - size_gb: "{{ item.value.disk_size | default(100) }}"
+            type: "{{ disk_type }}"
+            datastore: "{{ datastore_name }}"
+
+
+        networks:
+        - name: "{{ item.value.network1 }}"
+          ip: "{{ item.value.ip1 }}"
+          netmask: "{{ item.value.netmask }}"
+          dns_servers: "{{ item.value.dns_server }}"
+          domain: "{{ item.value.domain }}"
+          device_type: "{{ vm_type }}"
+          start_connected: True
+          type: static
+
+        - name: "{{ item.value.network2 }}"
+          ip: "{{ item.value.ip2 }}"
+          netmask: "{{ item.value.netmask }}"
+          gateway: "{{ item.value.gateway2 }}"
+          dns_servers: "{{ item.value.dns_server2 }}"
+          domain: "{{ item.value.domain }}"
+          device_type: "{{ vm_type }}"
+          start_connected: True
+          type: static
+
+        - name: "{{ item.value.network3 }}"
+          ip: "{{ item.value.ip3 }}"
+          netmask: "{{ item.value.netmask }}"
+          device_type: "{{ vm_type }}"
+          start_connected: True
+          type: static
+
+        - name: "{{ item.value.network4 }}"
+          ip: "{{ item.value.ip4 }}"
+          netmask: "{{ item.value.netmask }}"
+          device_type: "{{ vm_type }}"
+          start_connected: True
+          type: static
+
+
+        - name: "{{ item.value.network5 }}"
+          ip: "{{ item.value.ip5 }}"
+          netmask: "{{ item.value.netmask2 }}"
+          gateway: "{{ item.value.gateway2 }}"
+          dns_servers: "{{ item.value.dns_server3 }}"
+          domain: "{{ item.value.domain }}"
+          device_type: "{{ vm_type }}"
+          start_connected: True
+          type: static
+
+
+
+        hardware:
+          memory_mb: "{{ item.value.mem }}"
+          num_cpus: "{{ item.value.cpu }}"
+        customization:
+          hostname: "{{ item.value.name }}"
+          dns_servers: "{{ item.value.dns_server }}"
+          domain: "{{ item.value.domain }}"
+        wait_for_ip_address: True
+        state: poweredon
+      register: "{{ item.value.name }}"
+      with_dict: "{{ rancher_vms }}"
+
+

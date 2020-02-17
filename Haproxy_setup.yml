@@ -1,6 +1,6 @@
 ---
 - name: Deploy docker 
-  hosts: lb
+  hosts: loadbalancer
   gather_facts: false
   connection: local
 

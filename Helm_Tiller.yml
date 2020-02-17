@@ -1,0 +1,27 @@
+---
+- name: intialize helm and tiller
+  hosts: localhost
+  connection: local
+  tasks:
+    
+    - name: create service account tiller 
+      command: "kubectl -n kube-system create serviceaccount tiller"      
+      ignore_error: no
+      
+    - name: create role biding for service account tiller
+      command: "kubectl create clusterrolebinding tiller --clusterrole=cluster-admin --serviceaccount=kube-system:tiller"
+      ignore_error: no      
+   
+    - name: Intialize helm using tiller service account 
+      command: "helm init --service-account tiller"
+      ignore_error: no
+
+    - name: test tiller 
+      shell: "kubectl -n kube-system  rollout status deploy/tiller-deploy" 
+      ignore_error: no
+
+    - name: Test helm
+      command: helm version
+      ignore_error: no
+   
+      

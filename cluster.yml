@@ -1,13 +1,42 @@
 nodes:
-  - address: 10.0.8.91
+  - address: ManagementNode01ip
     user: rkeuser
-    role: [controlplane,worker,etcd]
-  - address: 10.0.8.92
+    role: [controlplane,etcd]
+  - address: ManagementNode02ip
     user: rkeuser
-    role: [controlplane,worker,etcd]
-  - address: 10.0.8.93
+    role: [controlplane,etcd]
+  - address: ManagementNode03ip
     user: rkeuser
-    role: [controlplane,worker,etcd]
+    role: [controlplane,etcd]
+  - address: WorkerNode01ip
+    user: rkeuser
+    role: [worker]
+  - address: WorkerNode02ip
+    user: rkeuser
+    role: [worker]
+  - address: WorkerNode03ip
+    user: rkeuser
+    role: [worker]
+  - address: WorkerNode04ip
+    user: rkeuser
+    role: [worker]
+  - address: WorkerNode05ip
+    user: rkeuser
+    role: [worker]
+  - address: WorkerNode06ip
+    user: rkeuser  
+    role: [worker]
+  - address: WorkerNode07ip
+    user: rkeuser
+    role: [worker]
+  - address: WorkerNode08ip
+    user: rkeuser
+    role: [worker]
+  - address: WorkerNode09ip
+    user: rkeuser
+    role: [worker]
+
+
 
 services:
   etcd:
